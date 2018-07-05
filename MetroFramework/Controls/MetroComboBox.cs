@@ -374,19 +374,25 @@ namespace MetroFramework.Controls
             // cannot use and observable on Items to know when it has changed
             if (this.autoCompleteMode != AutoCompleteMode.None && !isCached)
             {
+                isCached = true;
+
                 textBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
                 textBox.AutoCompleteCustomSource = new AutoCompleteStringCollection();
 
-                isCached = true;
-                for (int i = 0; i < Items.Count; i++)
-                {
-                    textBox.AutoCompleteCustomSource.Add(GetItemText(Items[i]));
-                }
-
-
+                Task.Factory.StartNew(() => GetList()).ContinueWith((res)=> textBox.Invoke((MethodInvoker)(() => textBox.AutoCompleteCustomSource=res.Result)));
             }
         }
+  
 
+        private AutoCompleteStringCollection GetList()
+        {
+            AutoCompleteStringCollection stringCache = new AutoCompleteStringCollection();
+            foreach (var item in Items)
+            {
+                stringCache.Add(GetItemText(item));
+            }
+            return stringCache;
+        }
        
         private void TextBox_Resize(object sender, EventArgs e)
         {

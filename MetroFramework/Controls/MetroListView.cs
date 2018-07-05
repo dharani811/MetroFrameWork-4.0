@@ -11,6 +11,7 @@ using System.Collections;
 using System.Reflection;
 using System.Globalization;
 using System.Runtime.InteropServices;
+using System.Security;
 
 namespace MetroFramework.Controls
 {
@@ -406,7 +407,7 @@ namespace MetroFramework.Controls
         const int GWL_STYLE = -16;
         const int WS_VSCROLL = 0x00200000;
 
-
+        [SecuritySafeCritical]
         public static int GetWindowLong(IntPtr hWnd, int nIndex)
         {
             if (IntPtr.Size == 4)
