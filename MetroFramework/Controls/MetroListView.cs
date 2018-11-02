@@ -284,6 +284,7 @@ namespace MetroFramework.Controls
             SetScrollPosition(_vScrollbar.Value);
         }
 
+        [SecuritySafeCritical]
         public void GetScrollPosition(out int min, out int max, out int pos, out int smallchange, out int largechange)
         {
             SCROLLINFO scrollinfo = new SCROLLINFO();
